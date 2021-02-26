@@ -13,8 +13,9 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": ["warn", { "singleQuote": true }],
-    "react/prop-types": "off"
+    "prettier/prettier": ["warn", { "printWidth": 100, "singleQuote": true }],
+    "react/prop-types": "off",
+    "no-underscore-dangle": "off"
   },
   "parser": "babel-eslint"
 }
