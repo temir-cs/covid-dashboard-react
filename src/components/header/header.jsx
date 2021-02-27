@@ -5,7 +5,7 @@ const Header = () => (
   <header className="page-header">
     <h1 className="page-header__title">
       COVID-19 Dashboard
-      <span className="page-header__remark">(if you see 0, there is no data provided)</span>
+      <p className="page-header__remark"> (if you see 0, there is no data provided)</p>
     </h1>
   </header>
 );
