@@ -4,7 +4,10 @@ import Footer from '../footer';
 import './app.scss';
 import UpdateDate from '../update-date';
 import GlobalCases from '../global-cases';
-import CountriesList from '../countries-list';
+import CountriesListContainer from '../countries-list-container';
+import Map from '../map';
+import ChartContainer from '../chart-container';
+import CountryDetails from '../country-details';
 // import CovidDataService from '../../services/covid-data-service';
 
 // const covidDataService = new CovidDataService();
@@ -20,13 +23,14 @@ const App = () => (
       <div className="content__left">
         <UpdateDate />
         <GlobalCases />
-        <CountriesList />
+        <CountriesListContainer />
       </div>
       <div className="content__center">
-        <p>Content Center</p>
+        <Map />
       </div>
       <div className="content__right">
-        <p>Content Right</p>
+        <CountryDetails />
+        <ChartContainer />
       </div>
     </main>
     <Footer />

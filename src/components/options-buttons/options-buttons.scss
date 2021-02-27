@@ -1,3 +1,5 @@
+@import '../app/styles/variables.scss';
+
 .options {
   position: absolute;
   left: 0;
@@ -11,7 +13,6 @@
   &--chart {
     position: relative;
     margin-top: 1.5rem;
-    
   }
 
   &--map {
@@ -44,7 +45,7 @@
   align-items: center;
   background: $main-bg-color;
   font-family: 'Titillium Web', sans-serif;
-  font-weight: 400; 
+  font-weight: 400;
   font-size: 1.4rem;
   line-height: 2rem;
   border: 1px $darker-bg-color solid;
@@ -66,26 +67,22 @@
   &:hover {
     cursor: initial;
   }
-} 
+}
 
-
-
-@media #{$tablet-width} { 
+@media #{$tablet-width} {
   .options {
-  
     &--chart {
       margin-top: 1.5rem;
     }
-  
+
     &--map {
       width: 70%;
       z-index: 999;
     }
-  
+
     &--countries {
       margin-top: 1rem;
       padding-right: 1.5rem;
     }
   }
-
 }

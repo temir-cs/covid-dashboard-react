@@ -134,6 +134,7 @@
 }
 
 .content__remark {
+  margin-right: 1rem;
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400;
   font-size: 1.8rem;
@@ -213,6 +214,7 @@
 }
 
 .content__note {
+  text-align: center;
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400;
   font-size: 1.2rem;
@@ -220,6 +222,7 @@
 }
 
 .content__center {
+  position: relative;
   width: 55%;
   background-color: $map-bg-color;
   height: 88vh;
