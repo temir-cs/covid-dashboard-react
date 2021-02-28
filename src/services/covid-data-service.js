@@ -34,7 +34,7 @@ export default class CovidDataService {
   };
 
   _transformGlobalData = (data) => ({
-    lastUpdated: new Date(),
+    lastUpdated: new Date(data.updated).toLocaleDateString('en-GB'),
     population: data.population,
     totalConfirmed: data.cases,
     totalRecovered: data.recovered,

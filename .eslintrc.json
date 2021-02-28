@@ -17,7 +17,9 @@
     "react/prop-types": "off",
     "no-underscore-dangle": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "react/self-closing-comp": "off"
+    "react/self-closing-comp": "off",
+    "import/no-unresolved": [2, { "commonjs": true }],
+    "no-shadow": "off"
   },
   "parser": "babel-eslint"
 }

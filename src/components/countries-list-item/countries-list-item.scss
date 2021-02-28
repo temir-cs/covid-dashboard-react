@@ -1,18 +1,4 @@
 @import '../app/styles/variables.scss';
-@import '../app/styles/mixins.scss';
-
-.countries {
-  @include list-normalize();
-}
-
-.countries__container {
-  height: 46vh;
-  overflow-y: scroll;
-}
-
-.content__expandable--expanded .countries__container {
-  height: 80vh;
-}
 
 .countries__item {
   padding-top: 0.6rem;
