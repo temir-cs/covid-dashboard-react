@@ -44,9 +44,14 @@ const initialState = {
   loadingGlobal: true,
   errorGlobal: null,
   errorCountries: null,
+  currentType: 'cases',
+  currentTimePeriod: 'total',
+  currentNumberFormat: 'absolute',
 };
 
 const reducer = (state = initialState, action) => {
+  // console.log(action.type);
+
   switch (action.type) {
     case 'FETCH_GLOBAL_DATA_REQUEST':
       return {
@@ -87,6 +92,21 @@ const reducer = (state = initialState, action) => {
         countries: [],
         loadingCountries: false,
         errorCountries: action.payload,
+      };
+    case 'SELETED_DISPLAY_TYPE':
+      return {
+        ...state,
+        currentType: action.payload,
+      };
+    case 'TOGGLE_TIME_PERIOD':
+      return {
+        ...state,
+        currentTimePeriod: state.currentTimePeriod === 'total' ? 'lastUpdated' : 'total',
+      };
+    case 'TOGGLE_NUMBER_FORMAT':
+      return {
+        ...state,
+        currentNumberFormat: state.currentNumberFormat === 'absolute' ? 'per100k' : 'absolute',
       };
     default:
       return state;

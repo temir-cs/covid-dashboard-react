@@ -5,7 +5,7 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import withCovidDataService from '../hoc';
 import { getCountriesData } from '../../actions';
-import { compose } from '../../utils';
+import { compose, formatNum, getCriteria, sortDatabyCriteria } from '../../utils';
 import './countries-list.scss';
 
 class CountriesList extends Component {
@@ -15,7 +15,16 @@ class CountriesList extends Component {
   }
 
   render() {
-    const { countries, loading, error } = this.props;
+    const {
+      countries,
+      loading,
+      error,
+      currentType,
+      currentTimePeriod,
+      currentNumberFormat,
+    } = this.props;
+    const currentCriteria = getCriteria(currentType, currentTimePeriod, currentNumberFormat);
+    const sortedCountries = sortDatabyCriteria(countries, currentCriteria);
 
     if (error) {
       return (
@@ -36,19 +45,38 @@ class CountriesList extends Component {
     return (
       <div className="countries__container">
         <ul className="content__countries-list countries">
-          {countries.map((country) => (
-            <CountriesListItem key={country.country} item={country} />
-          ))}
+          {sortedCountries.map((item) => {
+            const { country, flagPath } = item;
+            const data = item[currentCriteria];
+            return (
+              <CountriesListItem
+                key={country}
+                data={formatNum(data)}
+                countryName={country}
+                flagPath={flagPath}
+              />
+            );
+          })}
         </ul>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ countries, loadingCountries, errorCountries }) => ({
+const mapStateToProps = ({
+  countries,
+  loadingCountries,
+  errorCountries,
+  currentType,
+  currentTimePeriod,
+  currentNumberFormat,
+}) => ({
   countries,
   loading: loadingCountries,
   error: errorCountries,
+  currentType,
+  currentTimePeriod,
+  currentNumberFormat,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

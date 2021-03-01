@@ -26,6 +26,19 @@ const globalDataError = (error) => ({
   payload: error,
 });
 
+const selectedDisplayType = (type) => ({
+  type: 'SELETED_DISPLAY_TYPE',
+  payload: type,
+});
+
+const toggleTimePeriod = () => ({
+  type: 'TOGGLE_TIME_PERIOD',
+});
+
+const toggleNumberFormat = () => ({
+  type: 'TOGGLE_NUMBER_FORMAT',
+});
+
 const getGlobalData = (covidDataService, dispatch) => () => {
   dispatch(globalDataRequested());
   covidDataService
@@ -41,9 +54,15 @@ const getCountriesData = (covidDataService, dispatch) => () => {
   covidDataService
     .getCountriesData()
     .then((data) => {
-      dispatch(countriesDataLoaded(data.sort((a, b) => b.totalConfirmed - a.totalConfirmed)));
+      dispatch(countriesDataLoaded(data));
     })
     .catch((err) => dispatch(countriesDataError(err)));
 };
 
-export { getGlobalData, getCountriesData };
+export {
+  getGlobalData,
+  getCountriesData,
+  selectedDisplayType,
+  toggleTimePeriod,
+  toggleNumberFormat,
+};

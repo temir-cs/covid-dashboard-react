@@ -60,14 +60,24 @@
   }
 }
 
-.options__input:checked + .options__label {
+.options__checked {
   background: $toggle-circle-color;
   font-weight: 600;
 
   &:hover {
     cursor: initial;
+    background: $toggle-circle-color;
   }
 }
+
+// .options__input:checked + .options__label {
+//   background: $toggle-circle-color;
+//   font-weight: 600;
+
+//   &:hover {
+//     cursor: initial;
+//   }
+// }
 
 @media #{$tablet-width} {
   .options {

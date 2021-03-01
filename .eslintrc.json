@@ -19,7 +19,9 @@
     "jsx-a11y/control-has-associated-label": "off",
     "react/self-closing-comp": "off",
     "import/no-unresolved": [2, { "commonjs": true }],
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
   },
   "parser": "babel-eslint"
 }

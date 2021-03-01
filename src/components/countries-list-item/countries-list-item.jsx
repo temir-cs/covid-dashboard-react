@@ -1,18 +1,14 @@
 import React from 'react';
 import './countries-list-item.scss';
-import { formatNum } from '../../utils';
 
-const CountriesListItem = ({ item }) => {
-  const { totalConfirmed, country, flagPath } = item;
-  return (
-    <li className="countries__item">
-      <span className="countries__number">{formatNum(totalConfirmed)}</span>
-      <span className="countries__name">{country}</span>
-      <div className="countries__flag">
-        <img src={flagPath} alt={country} />
-      </div>
-    </li>
-  );
-};
+const CountriesListItem = ({ data, countryName, flagPath }) => (
+  <li className="countries__item">
+    <span className="countries__number">{data}</span>
+    <span className="countries__name">{countryName}</span>
+    <div className="countries__flag">
+      <img src={flagPath} alt={countryName} />
+    </div>
+  </li>
+);
 
 export default CountriesListItem;
