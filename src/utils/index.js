@@ -31,4 +31,10 @@ const getCriteria = (type = 'cases', timePeriod = 'total', numberFormat = 'absol
 const sortDatabyCriteria = (items, criteria) =>
   items.slice().sort((a, b) => b[criteria] - a[criteria]);
 
-export { compose, formatNum, getCriteria, sortDatabyCriteria };
+const getMatchingCountries = (input, countries) =>
+  countries.filter((item) => item.country.toLowerCase().startsWith(input.toLowerCase()));
+
+const findCountry = (countryName, countries) =>
+  countries.find((country) => country.country === countryName);
+
+export { compose, formatNum, getCriteria, sortDatabyCriteria, getMatchingCountries, findCountry };

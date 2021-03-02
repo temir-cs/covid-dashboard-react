@@ -50,10 +50,13 @@ const initialState = {
   currentType: 'cases',
   currentTimePeriod: 'total',
   currentNumberFormat: 'absolute',
+  searchQuery: '',
+  selectedCountry: null,
 };
 
 const reducer = (state = initialState, action) => {
   // console.log(action.type);
+  // console.log('payload :', action.payload);
 
   switch (action.type) {
     case 'FETCH_GLOBAL_DATA_REQUEST':
@@ -123,6 +126,21 @@ const reducer = (state = initialState, action) => {
         currentCriteria: getCriteria(currentType, currentTimePeriod, newNumberFormat),
       };
     }
+    case 'SEARCHED_COUNTRY':
+      return {
+        ...state,
+        searchQuery: action.payload,
+      };
+    case 'SELECTED_COUNTRY':
+      return {
+        ...state,
+        selectedCountry: action.payload,
+      };
+    case 'RESET_COUNTRY':
+      return {
+        ...state,
+        selectedCountry: null,
+      };
     default:
       return state;
   }

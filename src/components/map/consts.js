@@ -3,6 +3,7 @@ export const WORLD_BOUNDS = [
   [90, 180],
 ];
 export const DEFAULT_MAP_ZOOM = 3;
+export const DEFAULT_COUNTRY_ZOOM = 4.5;
 
 export const DATA_TOOLTIPS = {
   totalConfirmed: 'Total confirmed cases',

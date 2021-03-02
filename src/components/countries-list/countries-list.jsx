@@ -5,7 +5,7 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import withCovidDataService from '../hoc';
 import { getCountriesData } from '../../actions';
-import { compose, formatNum, sortDatabyCriteria } from '../../utils';
+import { compose, formatNum, sortDatabyCriteria, getMatchingCountries } from '../../utils';
 import './countries-list.scss';
 
 class CountriesList extends Component {
@@ -15,8 +15,9 @@ class CountriesList extends Component {
   }
 
   render() {
-    const { countries, loading, error, currentCriteria } = this.props;
-    const sortedCountries = sortDatabyCriteria(countries, currentCriteria);
+    const { countries, loading, error, currentCriteria, searchQuery } = this.props;
+    const visibleCountries = getMatchingCountries(searchQuery, countries);
+    const sortedCountries = sortDatabyCriteria(visibleCountries, currentCriteria);
 
     if (error) {
       return (
@@ -55,11 +56,18 @@ class CountriesList extends Component {
   }
 }
 
-const mapStateToProps = ({ countries, loadingCountries, errorCountries, currentCriteria }) => ({
+const mapStateToProps = ({
+  countries,
+  loadingCountries,
+  errorCountries,
+  currentCriteria,
+  searchQuery,
+}) => ({
   countries,
   loading: loadingCountries,
   error: errorCountries,
   currentCriteria,
+  searchQuery,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -39,6 +39,20 @@ const toggleNumberFormat = () => ({
   type: 'TOGGLE_NUMBER_FORMAT',
 });
 
+const searchedCountry = (query) => ({
+  type: 'SEARCHED_COUNTRY',
+  payload: query,
+});
+
+const selectedCountry = (countryName) => ({
+  type: 'SELECTED_COUNTRY',
+  payload: countryName,
+});
+
+const resetCountry = () => ({
+  type: 'RESET_COUNTRY',
+});
+
 const getGlobalData = (covidDataService, dispatch) => () => {
   dispatch(globalDataRequested());
   covidDataService
@@ -65,4 +79,7 @@ export {
   selectedDisplayType,
   toggleTimePeriod,
   toggleNumberFormat,
+  searchedCountry,
+  selectedCountry,
+  resetCountry,
 };

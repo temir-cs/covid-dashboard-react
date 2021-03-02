@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { connect } from 'react-redux';
+import { selectedCountry } from '../../actions';
 import OptionsButtons from '../options-buttons';
 import MapMarker from '../map-marker';
-import { WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DATA_TOOLTIPS } from './consts';
+import { WORLD_BOUNDS, DEFAULT_MAP_ZOOM, DEFAULT_COUNTRY_ZOOM, DATA_TOOLTIPS } from './consts';
 import getSpreadSpeedLevel from './utils';
+import { findCountry } from '../../utils';
 import './map.scss';
 
 const L = require('leaflet');
@@ -85,26 +87,59 @@ class Map extends Component {
 
   componentDidUpdate(prevProps) {
     const { map, markersLayerGroup } = this.state;
-    const { countries, currentCriteria } = this.props;
+    const { countries, currentCriteria, selectedCountry } = this.props;
     if (prevProps !== this.props) {
       renderMapMarkers(map, markersLayerGroup, countries, currentCriteria);
+      if (!selectedCountry) this.poisitionMap();
+    }
+  }
+
+  onMarkerClick(targetId, containerId, onMarkerSelect) {
+    const { countries } = this.props;
+    if (targetId !== containerId) {
+      const countryName = targetId;
+      const { lat, long } = findCountry(countryName, countries);
+      onMarkerSelect(countryName);
+      this.poisitionMap({ lat, long });
+    }
+  }
+
+  poisitionMap(coordinates) {
+    const { map } = this.state;
+    if (coordinates) {
+      const { lat, long } = coordinates;
+      map.flyTo(new L.LatLng(lat, long), DEFAULT_COUNTRY_ZOOM);
+    } else {
+      const center = L.latLngBounds(WORLD_BOUNDS).getCenter();
+      map.flyTo(center, DEFAULT_MAP_ZOOM);
     }
   }
 
   render() {
+    const { onMarkerSelect } = this.props;
+
     return (
       <div className="content__map">
-        <div className="content__map-container" id="map-container"></div>
+        <div
+          className="content__map-container"
+          id="map-container"
+          onClick={(e) => this.onMarkerClick(e.target.id, 'map-container', onMarkerSelect)}
+        ></div>
         <OptionsButtons location="map" />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ loadingCountries, countries, currentCriteria }) => ({
+const mapStateToProps = ({ selectedCountry, loadingCountries, countries, currentCriteria }) => ({
+  selectedCountry,
   loadingCountries,
   countries,
   currentCriteria,
 });
 
-export default connect(mapStateToProps)(Map);
+const mapDispatchToProps = (dispatch) => ({
+  onMarkerSelect: (countryName) => dispatch(selectedCountry(countryName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
