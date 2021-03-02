@@ -1,3 +1,5 @@
+import { getCriteria } from '../utils';
+
 const initialState = {
   global: {},
   countries: [
@@ -44,6 +46,7 @@ const initialState = {
   loadingGlobal: true,
   errorGlobal: null,
   errorCountries: null,
+  currentCriteria: 'totalConfirmed',
   currentType: 'cases',
   currentTimePeriod: 'total',
   currentNumberFormat: 'absolute',
@@ -93,21 +96,33 @@ const reducer = (state = initialState, action) => {
         loadingCountries: false,
         errorCountries: action.payload,
       };
-    case 'SELETED_DISPLAY_TYPE':
+    case 'SELECTED_DISPLAY_TYPE': {
+      const newType = action.payload;
+      const { currentTimePeriod, currentNumberFormat } = state;
       return {
         ...state,
-        currentType: action.payload,
+        currentType: newType,
+        currentCriteria: getCriteria(newType, currentTimePeriod, currentNumberFormat),
       };
-    case 'TOGGLE_TIME_PERIOD':
+    }
+    case 'TOGGLE_TIME_PERIOD': {
+      const newTimePeriod = state.currentTimePeriod === 'total' ? 'lastUpdated' : 'total';
+      const { currentType, currentNumberFormat } = state;
       return {
         ...state,
-        currentTimePeriod: state.currentTimePeriod === 'total' ? 'lastUpdated' : 'total',
+        currentTimePeriod: newTimePeriod,
+        currentCriteria: getCriteria(currentType, newTimePeriod, currentNumberFormat),
       };
-    case 'TOGGLE_NUMBER_FORMAT':
+    }
+    case 'TOGGLE_NUMBER_FORMAT': {
+      const newNumberFormat = state.currentNumberFormat === 'absolute' ? 'per100k' : 'absolute';
+      const { currentType, currentTimePeriod } = state;
       return {
         ...state,
-        currentNumberFormat: state.currentNumberFormat === 'absolute' ? 'per100k' : 'absolute',
+        currentNumberFormat: newNumberFormat,
+        currentCriteria: getCriteria(currentType, currentTimePeriod, newNumberFormat),
       };
+    }
     default:
       return state;
   }

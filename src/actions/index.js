@@ -27,7 +27,7 @@ const globalDataError = (error) => ({
 });
 
 const selectedDisplayType = (type) => ({
-  type: 'SELETED_DISPLAY_TYPE',
+  type: 'SELECTED_DISPLAY_TYPE',
   payload: type,
 });
 
