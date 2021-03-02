@@ -8,11 +8,6 @@ import CountriesListContainer from '../countries-list-container';
 import Map from '../map';
 import ChartContainer from '../chart-container';
 import CountryDetails from '../country-details';
-// import CovidDataService from '../../services/covid-data-service';
-
-// const covidDataService = new CovidDataService();
-// covidDataService.getGlobalData().then((data) => console.log(data));
-// covidDataService.getCountriesData().then((data) => console.log(data));
 
 const App = () => (
   <>
