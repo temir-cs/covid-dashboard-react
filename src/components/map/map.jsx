@@ -90,7 +90,14 @@ class Map extends Component {
     const { countries, currentCriteria, selectedCountry } = this.props;
     if (prevProps !== this.props) {
       renderMapMarkers(map, markersLayerGroup, countries, currentCriteria);
-      if (!selectedCountry) this.poisitionMap();
+    }
+    if (prevProps.selectedCountry !== selectedCountry) {
+      if (selectedCountry) {
+        const { lat, long } = findCountry(selectedCountry, countries);
+        this.poisitionMap({ lat, long });
+      } else {
+        this.poisitionMap();
+      }
     }
   }
 
@@ -123,7 +130,9 @@ class Map extends Component {
         <div
           className="content__map-container"
           id="map-container"
-          onClick={(e) => this.onMarkerClick(e.target.id, 'map-container', onMarkerSelect)}
+          onClick={(e) => {
+            this.onMarkerClick(e.target.id, 'map-container', onMarkerSelect);
+          }}
         ></div>
         <OptionsButtons location="map" />
       </div>

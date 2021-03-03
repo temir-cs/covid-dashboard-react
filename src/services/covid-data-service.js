@@ -1,21 +1,12 @@
-import {
-  GLOBAL_URL,
-  COUNTRIES_URL,
-  GLOBAL_DAILY_URL,
-  INVALID_GEO_NAMES,
-  POPULATION_UNIT,
-} from './consts';
+import { INVALID_GEO_NAMES, POPULATION_UNIT } from './consts';
 
 export default class CovidDataService {
   constructor() {
-    this.globalURL = GLOBAL_URL;
-    this.countriesURL = COUNTRIES_URL;
-    this.globalDailyURL = GLOBAL_DAILY_URL;
-    this.invalidGeoNames = INVALID_GEO_NAMES;
+    this.apiBase = 'https://disease.sh/v3/covid-19/';
   }
 
   getResource = async (url) => {
-    const res = await fetch(url);
+    const res = await fetch(`${this.apiBase}${url}`);
     if (!res.ok) {
       throw new Error(`Could not fetch: ${url}, received ${res.status}`);
     }
@@ -24,13 +15,23 @@ export default class CovidDataService {
   };
 
   getGlobalData = async () => {
-    const res = await this.getResource(this.globalURL);
+    const res = await this.getResource('all?yesterday=false&twoDaysAgo=0&allowNull=true');
     return this._transformGlobalData(res);
   };
 
   getCountriesData = async () => {
-    const res = await this.getResource(this.countriesURL);
+    const res = await this.getResource('countries?yesterday=false&twoDaysAgo=false&allowNull=true');
     return this._transformCountriesData(res);
+  };
+
+  getGlobalDaily = async () => {
+    const res = await this.getResource('historical/all?lastdays=all');
+    return this._transformDaily(res);
+  };
+
+  getCountryDaily = async (countryName) => {
+    const res = await this.getResource(`historical/${countryName}?lastdays=all`);
+    return this._transformDaily(res, countryName);
   };
 
   _transformGlobalData = (data) => ({
@@ -92,5 +93,22 @@ export default class CovidDataService {
       }
     });
     return result;
+  };
+
+  _transformDaily = (res, country = null) => {
+    const currentGraph = {
+      dailyConfirmedIncrements: null,
+      dailyDeathsIncrements: null,
+      dailyRecoveredIncrements: null,
+    };
+    const dailyStats = country ? res.timeline : res;
+    const dailyConfirmed = dailyStats.cases;
+    const dailyDeaths = dailyStats.deaths;
+    const dailyRecovered = dailyStats.recovered;
+    currentGraph.dailyConfirmedIncrements = this._createIncrementsForGraphs(dailyConfirmed);
+    currentGraph.dailyDeathsIncrements = this._createIncrementsForGraphs(dailyDeaths);
+    currentGraph.dailyRecoveredIncrements = this._createIncrementsForGraphs(dailyRecovered);
+
+    return currentGraph;
   };
 }

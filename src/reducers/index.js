@@ -52,6 +52,11 @@ const initialState = {
   currentNumberFormat: 'absolute',
   searchQuery: '',
   selectedCountry: null,
+  currentGraph: {
+    dailyConfirmedIncrements: null,
+    dailyDeathsIncrements: null,
+    dailyRecoveredIncrements: null,
+  },
 };
 
 const reducer = (state = initialState, action) => {
