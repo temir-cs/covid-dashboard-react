@@ -1,3 +1,3 @@
-import Chart from './chart';
+import ChartBlock from './chart';
 
-export default Chart;
+export default ChartBlock;

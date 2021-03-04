@@ -111,4 +111,15 @@ export default class CovidDataService {
 
     return currentGraph;
   };
+
+  _createIncrementsForGraphs = (iniObj) => {
+    const currentGraphAbs = new Map();
+    let prevDateCases = 0;
+    for (const [date, activeCases] of Object.entries(iniObj)) {
+      const value = activeCases - prevDateCases > 0 ? activeCases - prevDateCases : 0;
+      currentGraphAbs.set(date, value);
+      prevDateCases = activeCases;
+    }
+    return currentGraphAbs;
+  };
 }

@@ -44,8 +44,10 @@ const initialState = {
   ],
   loadingCountries: true,
   loadingGlobal: true,
+  loadingDaily: true,
   errorGlobal: null,
   errorCountries: null,
+  errorDaily: null,
   currentCriteria: 'totalConfirmed',
   currentType: 'cases',
   currentTimePeriod: 'total',
@@ -60,8 +62,8 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  // console.log(action.type);
-  // console.log('payload :', action.payload);
+  console.log(action.type);
+  console.log('payload :', action.payload);
 
   switch (action.type) {
     case 'FETCH_GLOBAL_DATA_REQUEST':
@@ -103,6 +105,54 @@ const reducer = (state = initialState, action) => {
         countries: [],
         loadingCountries: false,
         errorCountries: action.payload,
+      };
+    case 'FETCH_GLOBAL_DAILY_REQUEST':
+      return {
+        ...state,
+        loadingDaily: true,
+        errorDaily: null,
+      };
+    case 'FETCH_GLOBAL_DAILY_SUCCESS':
+      return {
+        ...state,
+        currentGraph: action.payload,
+        loadingDaily: false,
+        errorDaily: null,
+      };
+    case 'FETCH_GLOBAL_DAILY_FAILURE':
+      return {
+        ...state,
+        currentGraph: {
+          dailyConfirmedIncrements: null,
+          dailyDeathsIncrements: null,
+          dailyRecoveredIncrements: null,
+        },
+        loadingDaily: false,
+        errorDaily: action.payload,
+      };
+    case 'FETCH_COUNTRY_DAILY_REQUEST':
+      return {
+        ...state,
+        loadingDaily: true,
+        errorDaily: null,
+      };
+    case 'FETCH_COUNTRY_DAILY_SUCCESS':
+      return {
+        ...state,
+        currentGraph: action.payload,
+        loadingDaily: false,
+        errorDaily: null,
+      };
+    case 'FETCH_COUNTRY_DAILY_FAILURE':
+      return {
+        ...state,
+        currentGraph: {
+          dailyConfirmedIncrements: null,
+          dailyDeathsIncrements: null,
+          dailyRecoveredIncrements: null,
+        },
+        loadingDaily: false,
+        errorDaily: action.payload,
       };
     case 'SELECTED_DISPLAY_TYPE': {
       const newType = action.payload;
